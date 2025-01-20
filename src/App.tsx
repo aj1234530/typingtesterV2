@@ -11,7 +11,7 @@ function App() {
     cursor.current? (cursor.current.style.transform = `translate(${cursorPosition.current.x}px,${cursorPosition.current.y}px)`): null;
   }, []);
 
-  const [paragraph, setParagraph] = useState(GenereateRandomParagraph()); //not destructing setPara as it is not neede
+  const [paragraph] = useState(GenereateRandomParagraph()); //not destructing setPara as it is not neede
   const words = useRef(paragraph.split(" "));
   const inputRef = useRef<HTMLInputElement>(null); //The generic <HTMLInputElement> defines the type of the value after the component mounts. //The generic <HTMLInputElement> defines the type of the value after the component mounts.
   const activeWord = useRef(0);
@@ -157,7 +157,6 @@ function App() {
             Change Paragraph
           </button>
           <TypingStats
-            stats={stats}
             accuracySpanRef={accuracySpanRef}
             grossSpeedSpanRef={grossSpeedSpanRef}
             netSpeedSpanRef={netSpeedSpanRef}
@@ -226,12 +225,10 @@ function App() {
 export default App;
 
 function TypingStats({
-  stats,
   accuracySpanRef,
   netSpeedSpanRef,
   grossSpeedSpanRef,
 }: {
-  stats: any;
   accuracySpanRef: React.MutableRefObject<null | HTMLSpanElement>;
   netSpeedSpanRef: React.MutableRefObject<null | HTMLSpanElement>;
   grossSpeedSpanRef: React.MutableRefObject<null | HTMLSpanElement>;
