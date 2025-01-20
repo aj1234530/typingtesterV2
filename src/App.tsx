@@ -11,7 +11,7 @@ function App() {
     cursor.current? (cursor.current.style.transform = `translate(${cursorPosition.current.x}px,${cursorPosition.current.y}px)`): null;
   }, []);
 
-  const [paragraph, setParagraph] = useState(GenereateRandomParagraph());
+  const [paragraph] = useState(GenereateRandomParagraph()); //not destructing setPara as it is not neede
   const words = useRef(paragraph.split(" "));
   const inputRef = useRef<HTMLInputElement>(null); //The generic <HTMLInputElement> defines the type of the value after the component mounts. //The generic <HTMLInputElement> defines the type of the value after the component mounts.
   const activeWord = useRef(0);
@@ -20,7 +20,7 @@ function App() {
   const childNodes = useRef<HTMLElement[]>([]);
   const cursorPosition = useRef({ x: 0, y: 0 });
   const cursor = useRef<HTMLDivElement | null>(null); //cursor refernce
-  
+
   const stats = useRef({
     noOfCorrectWords: 0,
     noOfIncorrectWords: 0,
