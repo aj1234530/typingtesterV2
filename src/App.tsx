@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { GenereateRandomParagraph } from "./libs/ParagraphGenerator";
 function App() {
