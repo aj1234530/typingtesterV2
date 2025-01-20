@@ -104,7 +104,7 @@ function App() {
   };
 
   //prettier-ignore
-  const handleTypingBusinessLogic = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTypingBusinessLogic = () => {
     wordsElementRef.current[activeWord.current].style.fontWeight = "bold";
     //letter node increasing  
     if(inputRef.current?.value.trim().length === 1){
