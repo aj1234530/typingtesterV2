@@ -195,7 +195,7 @@ function App() {
               ref={inputRef}
               type="text"
               placeholder="Type here..."
-              className="opacity-1"
+              className="opacity-0"
               autoFocus
               onPaste={(e) => e.preventDefault()}
               onKeyDown={handleKeyDown}
