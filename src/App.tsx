@@ -70,6 +70,7 @@ function App() {
       //why st - as was alert first and color thing later
       setTimeout(() => {
         alert(`Game Over: Accuracy: ${stats.current.accuracy}, Net Speed: ${stats.current.netTypingSpeed}, Gross Speed: ${stats.current.grossTypingSpeed}`);
+        window.location.reload();
       }, 0);
     } 
     //NOTE - impact of space when the space is pressed(handle correct, inc , checing if the length of input is not 0 i.e. the input is not empty after spaces )
