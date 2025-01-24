@@ -16,7 +16,7 @@ jobs:
       #step2
       - name: Install dependencies
         run: npm install
-      #step3 
+      #step3
       - name: Build the React app
         run: npm run build
       #step4 - deploy to s3 usin aws cli
@@ -26,13 +26,13 @@ jobs:
           args: --delete #removes files from s3 that are no longer exist
         env:
           AWS_S3_BUCKET: my-react-app456
-          AWS_ACCESS_KEY_ID: ${{secrets.AWS_SECRET_ID}}
-          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_KEY}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SOURCE_DIR: "dist"
       #step5 - invalidate cache
-      - name : Ivalidate CloudFront Cache
-       run: |
+      - name: Ivalidate CloudFront Cache
+        run: |
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
-       env:
+        env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
