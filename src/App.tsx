@@ -16,6 +16,7 @@ function App() {
   const inputRef = useRef<HTMLInputElement>(null); //The generic <HTMLInputElement> defines the type of the value after the component mounts. //The generic <HTMLInputElement> defines the type of the value after the component mounts.
   const activeWord = useRef(0);
   const letterNodes = useRef({ noOfNodes: 0, currentNode: 0 });
+  const currentKeyPressed = useRef<string | null>(null);
   const wordsElementRef = useRef<HTMLDivElement[]>([]);
   const childNodes = useRef<HTMLElement[]>([]);
   const cursorPosition = useRef({ x: 0, y: 0 });
@@ -39,6 +40,10 @@ function App() {
   const letterElementRef = useRef<HTMLSpanElement | null>(null);
   //prettier-ignore
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    //saving key to ref to be used later for color change
+    if(e.key != " "){
+      currentKeyPressed.current = e.key
+    }
     if(!stats.current.typingStarted){
       stats.current.startTime = Date.now();
       stats.current.typingStarted = true;
@@ -103,7 +108,6 @@ function App() {
 
     } 
   };
-
   //prettier-ignore
   const handleTypingBusinessLogic = () => {
     wordsElementRef.current[activeWord.current].style.fontWeight = "bold";
@@ -113,37 +117,33 @@ function App() {
       letterNodes.current.noOfNodes = 0;
     }
     if (inputRef.current && inputRef.current?.value.trim().length === 1) {
-      //TODO - revise this onefiletr the node and save(from gpt)
+      //TODO - revise this one filetr the node and save(- from gpt)
+      //setting the 
+      // Array.from() is a static method that creates a new array instance
       childNodes.current  = Array.from(wordsElementRef.current[activeWord.current].childNodes) .filter((node): node is HTMLElement => node instanceof HTMLElement);
       letterNodes.current.noOfNodes = childNodes.current.length;
    }
+
+   //changing the indivdual letter color , //just evaluting the current child node with the key pressed
+   if (childNodes.current[letterNodes.current.currentNode] instanceof HTMLElement) {
+    console.log(currentKeyPressed.current, childNodes.current[letterNodes.current.currentNode])
+    if(childNodes.current[letterNodes.current.currentNode].textContent?.trim() ==  currentKeyPressed.current){
+
+      childNodes.current[letterNodes.current.currentNode].style.color = "green";
+    }else{
+      childNodes.current[letterNodes.current.currentNode].style.color = "red";
+
+    }
+   }
+
    if (childNodes.current[letterNodes.current.currentNode] instanceof HTMLElement) {
     cursorPosition.current.x = (childNodes.current[letterNodes.current.currentNode] as HTMLElement).getBoundingClientRect().right;
     cursorPosition.current.y = (childNodes.current[letterNodes.current.currentNode] as HTMLElement).getBoundingClientRect().top;
-
     cursor.current?(cursor.current.style.transform = `translate(${cursorPosition.current.x}px,${cursorPosition.current.y}px)`): null;
     letterNodes.current.currentNode++
   }
   };
-  const handleParaChange = () => {
-    window.location.reload();
-    // setParagraph(GenereateRandomParagraph());
 
-    inputRef.current && (inputRef.current.value = "");
-    (cursorPosition.current.x = 0),
-      (cursorPosition.current.y = 0),
-      (stats.current = {
-        typingStarted: false,
-        startTime: 0,
-        noOfCorrectWords: 0,
-        noOfIncorrectWords: 0,
-        noOfWordsTyped: 0,
-        netTypingSpeed: 0,
-        grossTypingSpeed: 0,
-        accuracy: 0,
-      });
-    activeWord.current = 0;
-  };
   return (
     <div>
       <div className="h-screen w-screen bg-red-500 flex flex-col">
@@ -153,7 +153,7 @@ function App() {
         <main className="h-[calc(100%-3rem)] bg-blue-100 w-full ">
           <button
             className="border rounded bg-blue-700 text-white p-2 "
-            onClick={handleParaChange}
+            onClick={() => window.location.reload()}
           >
             Change Paragraph
           </button>
