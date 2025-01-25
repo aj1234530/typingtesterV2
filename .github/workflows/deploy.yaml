@@ -7,7 +7,7 @@ on:
 #deployement job on ubunty provided by github
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       #step1 - checkout repo(on ubuntu , v4 is github actionversion)
