@@ -7,6 +7,7 @@ function App() {
       <Routes>
         <Route path="/" element={<RootPage />}></Route>
         <Route path="/dashboard" element={<DashboardPage />}></Route>
+        <Route path="/*" element={<DashboardPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
