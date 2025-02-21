@@ -1,17 +1,17 @@
 const paragraphs: string[] = [
-  "ut commodo incididunt incididunt in ea nostrud tempor ex do",
-  "reprehenderit in consequat nostrud minim ullamco dolor nisi consectetur ex",
-  "ullamco dolore laboris ex adipiscing magna ea ullamco incididunt ad",
-  "in reprehenderit commodo commodo incididunt minim consequat ut dolor esse",
-  "aliqua aute veniam eiusmod ad eu reprehenderit ea eu aliquip",
-  "eiusmod consequat in dolor ex ullamco elit duis consectetur tempor",
-  "do aute consectetur amet aliquip enim voluptate ut quis incididunt",
-  "pariatur amet velit ullamco ea velit quis voluptate irure commodo",
-  "in nulla sit nulla pariatur pariatur sit ut ea enim",
-  "veniam tempor minim sit ipsum exercitation in cillum ut tempor",
+  "The quick brown fox jumps over the lazy dog, showcasing agility and speed while the dog remains still.",
+  "Consistency and practice are the keys to mastering any skill, whether it be typing, coding, or playing an instrument.",
+  "Technology continues to evolve, shaping the way we communicate, work, and interact with the world around us.",
+  "Creativity is the spark that fuels innovation, pushing humanity forward with new ideas and groundbreaking solutions.",
+  "Patience and persistence are essential when learning something new, as progress often comes in small steps.",
+  "Reading expands the mind, offering new perspectives and insights that can inspire change and growth.",
+  "Great things are achieved not by luck, but by dedication, perseverance, and a strong belief in one's ability.",
+  "A journey of a thousand miles begins with a single step, reminding us that every great achievement starts small.",
+  "The best way to predict the future is to create it, turning dreams into reality through focused effort.",
+  "Small daily improvements lead to long-term success, proving that consistency beats intensity over time.",
 ];
 export function GenereateRandomParagraph(): string {
   const randomParagraph = Math.floor(Math.random() * 10);
-  
+
   return paragraphs[randomParagraph];
 }

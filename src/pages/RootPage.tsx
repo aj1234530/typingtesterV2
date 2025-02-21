@@ -68,7 +68,7 @@ function RootPage() {
         stats.current.noOfIncorrectWords++;
       }
       //game over logic
-      stats.current.accuracy =(stats.current.noOfCorrectWords / words.current.length) * 100;
+      stats.current.accuracy =Math.ceil((stats.current.noOfCorrectWords / words.current.length) * 100);
       stats.current.grossTypingSpeed = Math.ceil(stats.current.noOfWordsTyped / ((Date.now() - stats.current.startTime) / (1000 * 60))); 
       grossSpeedSpanRef.current && (grossSpeedSpanRef.current.textContent = `${stats.current.grossTypingSpeed}`)
 
@@ -88,7 +88,7 @@ function RootPage() {
         stats.current.noOfIncorrectWords++;
       }
       stats.current.noOfWordsTyped++; //for accuracy in rt
-      stats.current.accuracy = (stats.current.noOfCorrectWords / stats.current.noOfWordsTyped ) * 100;
+      stats.current.accuracy = Math.ceil((stats.current.noOfCorrectWords / stats.current.noOfWordsTyped ) * 100);
       stats.current.netTypingSpeed = Math.ceil(
         (stats.current.noOfCorrectWords - stats.current.noOfIncorrectWords) /
         ((Date.now() - stats.current.startTime) / (1000 * 60))
@@ -143,82 +143,73 @@ function RootPage() {
     letterNodes.current.currentNode++
   }
   };
-
   return (
-    <div>
-      <div className="h-screen w-screen bg-red-500 flex flex-col">
-        <nav className="h-12 w-full  bg-blue-800 flex items-center ">
-          <div className="text-white pl-2 text-lg"> ⌨️ TYPE.sh</div>
-        </nav>
-        <main className="h-[calc(100%-3rem)] bg-blue-100 w-full ">
-          <button
-            className="border rounded bg-blue-700 text-white p-2 "
-            onClick={() => window.location.reload()}
-          >
-            Change Paragraph
-          </button>
-          <TypingStats
-            accuracySpanRef={accuracySpanRef}
-            grossSpeedSpanRef={grossSpeedSpanRef}
-            netSpeedSpanRef={netSpeedSpanRef}
-          />
-          <div className="flex flex-col justify-center h-1/2 w-full ">
-            <div
-              className=" typing-para max-w-[600px] p-2  flex flex-row gap-1 "
-              id=""
-            >
-              {paragraph &&
-                paragraph.split(" ").map((word, index) => (
-                  <div
-                    //   for referencing it is storedin the the useRef
-                    ref={(word) => {
-                      if (word) wordsElementRef.current[index] = word;
-                    }}
-                    key={index}
-                    id={`${index}`}
-                    className=" word flex flex-row"
-                  >
-                    {word.split("").map((letter, index) => (
-                      <span
-                        className="letter"
-                        key={index}
-                        ref={letterElementRef}
-                      >
-                        {" "}
-                        {letter}
-                      </span>
-                    ))}
-                  </div>
-                ))}
-            </div>
-            {/* after on blur impl i can happily m  ake opacity 0 */}
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Type here..."
-              className="opacity-0"
-              autoFocus
-              onPaste={(e) => e.preventDefault()}
-              onKeyDown={handleKeyDown}
-              onChange={handleTypingBusinessLogic}
-              //   onKeyDown={(e) => currentKeyPressed.current= e.key}
-              onBlur={() => inputRef.current?.focus()}
-            ></input>{" "}
+    <div className="h-screen w-screen bg-gray-900 flex flex-col font-mono">
+      <nav className="h-12 w-full bg-blue-800 flex items-center shadow-lg">
+        <div className="text-white pl-4 text-xl font-bold tracking-wide">
+          ⌨️ TYPE.sh
+        </div>
+      </nav>
+      <main className="h-[calc(100%-3rem)] bg-gray-800 w-full flex flex-col items-center justify-center text-white">
+        <button
+          className="border rounded bg-blue-700 hover:bg-blue-600 transition px-6 py-2 mb-6 shadow-md"
+          onClick={() => window.location.reload()}
+        >
+          Change Paragraph
+        </button>
+        <TypingStats
+          accuracySpanRef={accuracySpanRef}
+          grossSpeedSpanRef={grossSpeedSpanRef}
+          netSpeedSpanRef={netSpeedSpanRef}
+        />
+        <div className="flex flex-col justify-center items-center h-1/2 w-full">
+          <div className="max-w-[600px] p-4 flex flex-wrap gap-2 bg-gray-700 rounded-lg shadow-lg">
+            {paragraph &&
+              paragraph.split(" ").map((word, index) => (
+                <div
+                  ref={(word) =>
+                    word && (wordsElementRef.current[index] = word)
+                  }
+                  key={index}
+                  className="flex"
+                >
+                  {word.split("").map((letter, idx) => (
+                    <span
+                      className="text-xl text-gray-300 font-semibold tracking-wide"
+                      key={idx}
+                      ref={letterElementRef}
+                    >
+                      {letter}
+                    </span>
+                  ))}
+                </div>
+              ))}
           </div>
-        </main>
-      </div>
+          <input
+            ref={inputRef}
+            type="text"
+            className="opacity-0 absolute"
+            autoFocus
+            onPaste={(e) => e.preventDefault()}
+            onKeyDown={handleKeyDown}
+            onChange={handleTypingBusinessLogic}
+            onBlur={() => inputRef.current?.focus()}
+          />
+        </div>
+      </main>
       <div
         ref={cursor}
         style={{
           position: "fixed",
-          width: "2px",
-          height: "20px",
+          width: "3px",
+          height: "22px",
           top: cursorPosition.current.y,
           left: cursorPosition.current.x,
-          background: "blue",
-          transition: "transform 0.1s linear", // Smooth movement
+          background: "cyan",
+          borderRadius: "2px",
+          transition: "transform 0.1s linear",
         }}
-      ></div>
+      />
     </div>
   );
 }
@@ -235,22 +226,22 @@ function TypingStats({
   grossSpeedSpanRef: React.MutableRefObject<null | HTMLSpanElement>;
 }) {
   return (
-    <div className="typing-stats-section  h-12 w-full border rounded h">
-      Stats :
+    <div className="h-12 w-full flex items-center justify-center gap-6 bg-gray-800 text-white text-lg font-mono tracking-wide shadow-md rounded-md p-2">
       <span>
-        Accuracy:<span className="font-bold" ref={accuracySpanRef}></span>{" "}
+        Accuracy:{" "}
+        <span className="font-bold text-blue-400" ref={accuracySpanRef}></span>
       </span>
       <span>
-        Net Speed:<span className="font-bold" ref={netSpeedSpanRef}></span>
+        Net Speed:{" "}
+        <span className="font-bold text-green-400" ref={netSpeedSpanRef}></span>
       </span>
       <span>
-        Gross Speed:<span className="font-bold" ref={grossSpeedSpanRef}></span>
+        Gross Speed:{" "}
+        <span
+          className="font-bold text-yellow-400"
+          ref={grossSpeedSpanRef}
+        ></span>
       </span>
     </div>
   );
 }
-
-//cursor position
-//1. active word
-
-//increase the letter
